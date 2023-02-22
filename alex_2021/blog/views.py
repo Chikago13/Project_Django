@@ -13,23 +13,24 @@ def blog_index(request):
 
 def blog_detail(request, pk):
     post = Post.objects.get(pk=pk)
+
     form = CommentForm()
     if request.method == 'POST':
         form = CommentForm(request.POST)
         if form.is_valid():
             comment = Comment(
-                author=form.cleaned_data['author'],
-                body = form.cleaned_data['body'],
-                post = post
+                author=form.cleaned_data["author"],
+                body=form.cleaned_data["body"],
+                post=post
             )
             comment.save()
+
     comments = Comment.objects.filter(post=post)
     context = {
         "post": post,
-        "comments":comments,
-        "form":form,
+        "comments": comments,
+        "form": form,
     }
-
     return render(request, "blog_detail.html", context)
 
 
@@ -41,6 +42,6 @@ def blog_category(request, category):
     )
     context = {
         "category": category,
-        "posts": posts,
+        "posts": posts
     }
     return render(request, "blog_category.html", context)
